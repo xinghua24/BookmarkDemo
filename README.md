@@ -6,3 +6,5 @@ Technologies Used for this application
 * Frontend - React
 
 
+# Screenshot
+![screenshot.png](screenshot.png)
