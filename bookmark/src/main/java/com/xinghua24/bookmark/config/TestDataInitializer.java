@@ -18,11 +18,11 @@ public class TestDataInitializer {
     private class InitBean implements CommandLineRunner {
         @Override
         public void run(String... args) {
-            bookmarkService.save(new Bookmark("Google", "https://www.google.com/"));
-            bookmarkService.save(new Bookmark("Youtube", "https://www.youtube.com/"));
-            bookmarkService.save(new Bookmark("Netflix", "https://www.netflix.com/"));
-            bookmarkService.save(new Bookmark("Amazon", "https://www.amazon.com/"));
-            bookmarkService.save(new Bookmark("Apple", "https://www.apple.com/"));
+            bookmarkService.addBookmark(new Bookmark("Google", "https://google.com"));
+            bookmarkService.addBookmark(new Bookmark("Youtube", "https://www.youtube.com/"));
+            bookmarkService.addBookmark(new Bookmark("Netflix", "https://www.netflix.com/"));
+            bookmarkService.addBookmark(new Bookmark("Amazon", "https://www.amazon.com/"));
+            bookmarkService.addBookmark(new Bookmark("Apple", "https://www.apple.com/"));
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.xinghua24.bookmark.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "bookmark")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

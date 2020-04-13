@@ -8,11 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class BookmarkRepositoryTest {
     @Autowired
@@ -23,13 +23,13 @@ public class BookmarkRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        testEntityManager.persist(new Bookmark("Google", "https://www.google.com/"));
+        testEntityManager.persist(new Bookmark("Google", "google.com/"));
         testEntityManager.persist(new Bookmark("Apple", "https://www.apple.com/"));
         testEntityManager.persist(new Bookmark("Netflix", "https://www.netflix.com/"));
     }
 
     @Test
-    public void testFineByName() {
+    public void testFindByName() {
         Bookmark bookmark = bookmarkRepository.findByName("Apple");
         assertEquals("https://www.apple.com/", bookmark.getUrl());
     }

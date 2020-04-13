@@ -18,34 +18,27 @@ public class BookmarkService {
         return repository.findAll();
     }
 
-    public Bookmark save(Bookmark bookmark) {
-        return repository.save(bookmark);
-    }
-
-    public void delete(long id) {
-        repository.deleteById(id);
-    }
-
     public Optional<Bookmark> findById(Long id) {
         return repository.findById(id);
     }
 
-    public Bookmark createOrUpdate(Bookmark entity) {
-        if (entity == null) {
-            throw new IllegalArgumentException();
-        }
-        Optional<Bookmark> bookmark = repository.findById(entity.getId());
+    public Bookmark addBookmark(Bookmark bookmark) {
+        repository.save(bookmark);
+        return bookmark;
+    }
 
-        if (bookmark.isPresent()) {
-            Bookmark newBookmark = bookmark.get();
-            newBookmark.setName(entity.getName());
-            newBookmark.setUrl(entity.getUrl());
-            newBookmark = repository.save(newBookmark);
-            return newBookmark;
-        } else {
-            entity = repository.save(entity);
-            return entity;
-        }
+    public Bookmark updateBookmark(Bookmark bookmark) {
+        Bookmark newBookmark = repository.findById(bookmark.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid bookmark id: " + bookmark.getId()));
+        newBookmark.setName(bookmark.getName());
+        newBookmark.setUrl(bookmark.getUrl());
+        newBookmark = repository.save(newBookmark);
+        return newBookmark;
+    }
 
+    public void deleteById(long id) {
+        Bookmark bookmark = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid bookmark id: " + id));
+        repository.delete(bookmark);
     }
 }

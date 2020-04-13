@@ -28,7 +28,7 @@ public class BookmarkController {
 
     // GET localhost:8080/bookmarks/id
     @GetMapping("/{id}")
-    @ApiOperation(value = "Get Bookmarks")
+    @ApiOperation(value = "Get Bookmark")
     public ResponseEntity<Bookmark> getBookmark(@PathVariable("id") Long id) {
         Bookmark bookmark = service.findById(id).orElseThrow();
         return ResponseEntity.status(HttpStatus.OK).body(bookmark);
@@ -36,15 +36,22 @@ public class BookmarkController {
 
     // POST localhost:8080/bookmarks
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Bookmark> createOrUpdateBookmark(@Valid @RequestBody Bookmark bookmark) {
-        Bookmark updated = service.createOrUpdate(bookmark);
+    public ResponseEntity<Bookmark> createBookmark(@Valid @RequestBody Bookmark bookmark) {
+        Bookmark newBookmark = service.addBookmark(bookmark);
+        return ResponseEntity.status(HttpStatus.OK).body(newBookmark);
+    }
+
+    // PUT localhost:8080/bookmarks
+    @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Bookmark> updateBookmark(@Valid @RequestBody Bookmark bookmark) {
+        Bookmark updated = service.updateBookmark(bookmark);
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }
 
     // DELETE localhost:8080/bookmarks/{id}
     @DeleteMapping("/{id}")
     public HttpStatus deleteBookmarkById(@PathVariable("id") long id) {
-        service.delete(id);
+        service.deleteById(id);
         return HttpStatus.OK;
     }
 }
