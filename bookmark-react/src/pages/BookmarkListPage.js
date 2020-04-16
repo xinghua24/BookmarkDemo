@@ -12,13 +12,11 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
+import AddBookmark from "../components/bookmarkdialog/AddBookmark";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-  },
-  table: {
-    minWidth: 650,
   },
   marginRight: {
     marginRight: theme.spacing(1),
@@ -57,6 +55,15 @@ function BookmarkListPage(props) {
     console.log("handleEdit");
   };
 
+  const [openAddBookmark, setOpenAddBookmark] = React.useState(false);
+
+  const handleAddBookmark = () => {
+    setOpenAddBookmark(true);
+  };
+  const handleAddBookmarkClose = () => {
+    setOpenAddBookmark(false);
+  };
+
   const classes = useStyles();
   return (
     <Fragment>
@@ -64,7 +71,7 @@ function BookmarkListPage(props) {
         <p style={{ color: "red" }}>Something went wrong!!!</p>
       ) : null}
 
-      <Button variant="outlined" size="small">
+      <Button variant="outlined" size="small" onClick={handleAddBookmark}>
         <AddIcon fontSize="small" />
         Create New
       </Button>
@@ -108,6 +115,7 @@ function BookmarkListPage(props) {
           </Table>
         </TableContainer>
       </Paper>
+      <AddBookmark open={openAddBookmark} handleAddBookmarkClose={handleAddBookmarkClose} />
     </Fragment>
   );
 }
