@@ -38,7 +38,7 @@ public class BookmarkControllerTest {
 
     @Test
     public void testGetBookmark() throws Exception {
-        Bookmark bookmark = new Bookmark(1,"Sample", "http://sample.org/");
+        Bookmark bookmark = new Bookmark(1, "Sample", "http://sample.org/");
         when(bookmarkService.findById(1L)).thenReturn(Optional.of(bookmark));
         MvcResult result = mockMvc.perform(get("/bookmarks/{id}", 1)).andExpect(status().isOk()).andReturn();
         String actualResponseBody = result.getResponse().getContentAsString();
@@ -54,9 +54,7 @@ public class BookmarkControllerTest {
     public void testCreateBookmark() throws Exception {
         Bookmark bookmark = new Bookmark("Sample", "http://sample.org/");
         mockMvc.perform(
-                post("/bookmarks")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(bookmark)))
+                post("/bookmarks").contentType("application/json").content(objectMapper.writeValueAsString(bookmark)))
                 .andExpect(status().isOk());
     }
 
@@ -64,9 +62,7 @@ public class BookmarkControllerTest {
     public void testCreateBookmark_returns500() throws Exception {
         Bookmark bookmark = new Bookmark("Sample", null);
         mockMvc.perform(
-                post("/bookmarks")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(bookmark)))
+                post("/bookmarks").contentType("application/json").content(objectMapper.writeValueAsString(bookmark)))
                 .andExpect(status().isInternalServerError());
     }
 
@@ -74,9 +70,7 @@ public class BookmarkControllerTest {
     public void testUpdateBookmark() throws Exception {
         Bookmark bookmark = new Bookmark("Sample", "http://sample.org/");
         mockMvc.perform(
-                put("/bookmarks")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(bookmark)))
+                put("/bookmarks").contentType("application/json").content(objectMapper.writeValueAsString(bookmark)))
                 .andExpect(status().isOk());
     }
 
