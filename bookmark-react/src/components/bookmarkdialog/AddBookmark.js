@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import { BOOKMARK_API } from "../../Constants";
+import { BOOKMARK_API } from "../../constants/appConstants";
 
 function AddBookmark(props) {
   const [name, setName] = useState('');
