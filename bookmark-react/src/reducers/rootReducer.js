@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import bookmarkList from "./reducers/bookmarkList";
+import bookmarkList from "./bookmarkReducers";
 export default combineReducers( {
     bookmarkList
 });

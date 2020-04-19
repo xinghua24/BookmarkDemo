@@ -13,8 +13,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
 import AddBookmark from "../components/bookmarkdialog/AddBookmark";
-import {connect} from "react-redux"
-import {loadBookmarks} from '../actions/bookmarks'
+import { connect } from "react-redux";
+import * as bookmarkActions from "../actions/bookmarkActions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 function BookmarkListPage(props) {
   const [hasError, setErrors] = useState(false);
+  const [openAddBookmark, setOpenAddBookmark] = React.useState(false);
 
   async function fetchData() {
     try {
@@ -44,6 +45,7 @@ function BookmarkListPage(props) {
       await fetch(BOOKMARK_API + "/bookmarks/" + id, {
         method: "DELETE",
       });
+      props.removeBookmark(id)
     } catch (err) {
       setErrors(err);
     }
@@ -51,13 +53,11 @@ function BookmarkListPage(props) {
 
   useEffect(() => {
     fetchData();
-  },[]);
+  },[]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleEdit = () => {
     console.log("handleEdit");
   };
-
-  const [openAddBookmark, setOpenAddBookmark] = React.useState(false);
 
   const handleAddBookmark = () => {
     setOpenAddBookmark(true);
@@ -129,7 +129,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadBookmarks: bookmarks => dispatch(loadBookmarks(bookmarks))
+    loadBookmarks: bookmarks => dispatch(bookmarkActions.loadBookmarks(bookmarks)),
+    unloadBookmarks: () => dispatch(bookmarkActions.unloadBookmarks()),
+    updateBookmark: bookmark => dispatch(bookmarkActions.updateBookmark(bookmark)),
+    removeBookmark: bookmarkId => dispatch(bookmarkActions.removeBookmark(bookmarkId))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(BookmarkListPage)
