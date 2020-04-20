@@ -3,7 +3,7 @@ import { BOOKMARK_PAGE_LOADED,
     ADD_BOOKMARK,
     UPDATE_BOOKMARK,
     REMOVE_BOOKMARK
-} from '../constants/actionTypes'
+} from '../actions/actionTypes'
 
 let initialState = {
     bookmarks: []

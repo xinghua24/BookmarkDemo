@@ -8,19 +8,21 @@ import Button from '@material-ui/core/Button';
 import { connect } from "react-redux";
 import { BOOKMARK_API } from "../../constants/appConstants";
 import * as bookmarkActions from "../../actions/bookmarkActions";
-
+import { makeStyles } from "@material-ui/core/styles";
 
 function AddBookmark(props) {
   const handleAddBookmarkClose = props.handleAddBookmarkClose;
 
   const [name, setName] = useState('');
   const [url, setUrl] = useState('');
+  const [error, setError] = useState(false)
 
   const handleClose = () => {
     setName('')
     setUrl('')
+    setError(false)
     handleAddBookmarkClose()
-  };
+  }
 
   const handleAdd= async() => {
     try {
@@ -35,13 +37,19 @@ function AddBookmark(props) {
       props.addBookmark(result)
       handleClose()
     } catch (err) {
-      console.log(err)
-      handleClose()
+      setError(true)
     }
   };
 
+  const useStyles = makeStyles((theme) => ({
+    error: {
+      color: "red",
+    }
+  }));
+  const classes = useStyles();
+
   return (
-    <React.Fragment>
+    <>
       <Dialog
         open={props.open}
         onClose={handleClose}
@@ -49,6 +57,9 @@ function AddBookmark(props) {
       >
         <DialogTitle id="dialog-title">Add new Bookmark</DialogTitle>
         <DialogContent>
+          {
+            error && <div className={classes.error}>Something went wrong.</div>
+          }
         <TextField
             autoFocus
             margin="dense"
@@ -79,7 +90,7 @@ function AddBookmark(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }
 

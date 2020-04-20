@@ -4,7 +4,7 @@ import {
   ADD_BOOKMARK,
   UPDATE_BOOKMARK,
   REMOVE_BOOKMARK,
-} from "../constants/actionTypes";
+} from "./actionTypes";
 
 export const loadBookmarks = (bookmarks) => ({
   type: BOOKMARK_PAGE_LOADED,
