@@ -7,12 +7,15 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { BOOKMARK_API } from "../Constants";
+import { BOOKMARK_API } from "../constants/appConstants";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
 import AddBookmark from "../components/bookmarkdialog/AddBookmark";
+import { connect } from "react-redux";
+import * as bookmarkActions from "../actions/bookmarkActions";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,13 +28,13 @@ const useStyles = makeStyles((theme) => ({
 
 function BookmarkListPage(props) {
   const [hasError, setErrors] = useState(false);
-  const [bookmarks, setBookmarks] = useState([]);
+  const [openAddBookmark, setOpenAddBookmark] = React.useState(false);
 
   async function fetchData() {
     try {
       const response = await fetch(BOOKMARK_API + "/bookmarks");
       const bookmarks = await response.json();
-      setBookmarks(bookmarks);
+      props.loadBookmarks(bookmarks)
     } catch (err) {
       setErrors(err);
     }
@@ -42,6 +45,7 @@ function BookmarkListPage(props) {
       await fetch(BOOKMARK_API + "/bookmarks/" + id, {
         method: "DELETE",
       });
+      props.removeBookmark(id)
     } catch (err) {
       setErrors(err);
     }
@@ -49,13 +53,11 @@ function BookmarkListPage(props) {
 
   useEffect(() => {
     fetchData();
-  });
+  },[]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleEdit = () => {
     console.log("handleEdit");
   };
-
-  const [openAddBookmark, setOpenAddBookmark] = React.useState(false);
 
   const handleAddBookmark = () => {
     setOpenAddBookmark(true);
@@ -86,7 +88,7 @@ function BookmarkListPage(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {bookmarks.map((bookmark) => (
+              {props.bookmarks ? props.bookmarks.map((bookmark) => (
                 <TableRow key={bookmark.id} hover={true}>
                   <TableCell component="th" scope="row">
                     <a href={bookmark.url}>{bookmark.name}</a> - {bookmark.url}
@@ -110,7 +112,7 @@ function BookmarkListPage(props) {
                     </Button>
                   </TableCell>
                 </TableRow>
-              ))}
+              )): null }
             </TableBody>
           </Table>
         </TableContainer>
@@ -120,4 +122,17 @@ function BookmarkListPage(props) {
   );
 }
 
-export default BookmarkListPage;
+
+const mapStateToProps = state => {
+  return { bookmarks: state.bookmarkList.bookmarks }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadBookmarks: bookmarks => dispatch(bookmarkActions.loadBookmarks(bookmarks)),
+    unloadBookmarks: () => dispatch(bookmarkActions.unloadBookmarks()),
+    updateBookmark: bookmark => dispatch(bookmarkActions.updateBookmark(bookmark)),
+    removeBookmark: bookmarkId => dispatch(bookmarkActions.removeBookmark(bookmarkId))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(BookmarkListPage)

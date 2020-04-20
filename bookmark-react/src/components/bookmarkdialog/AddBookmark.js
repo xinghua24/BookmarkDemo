@@ -5,36 +5,51 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import { BOOKMARK_API } from "../../Constants";
+import { connect } from "react-redux";
+import { BOOKMARK_API } from "../../constants/appConstants";
+import * as bookmarkActions from "../../actions/bookmarkActions";
+import { makeStyles } from "@material-ui/core/styles";
 
 function AddBookmark(props) {
+  const handleAddBookmarkClose = props.handleAddBookmarkClose;
+
   const [name, setName] = useState('');
   const [url, setUrl] = useState('');
+  const [error, setError] = useState(false)
 
   const handleClose = () => {
-    props.handleAddBookmarkClose();
-  };
+    setName('')
+    setUrl('')
+    setError(false)
+    handleAddBookmarkClose()
+  }
 
   const handleAdd= async() => {
     try {
-      await fetch(BOOKMARK_API + "/bookmarks", {
+      let response = await fetch(BOOKMARK_API + "/bookmarks", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({'name': name, 'url': url})
       });
-      // const result = await response.json();
-      props.handleAddBookmarkClose();
+      const result = await response.json();
+      props.addBookmark(result)
+      handleClose()
     } catch (err) {
-      console.log(err)
-      props.handleAddBookmarkClose();
+      setError(true)
     }
-    
   };
 
+  const useStyles = makeStyles((theme) => ({
+    error: {
+      color: "red",
+    }
+  }));
+  const classes = useStyles();
+
   return (
-    <React.Fragment>
+    <>
       <Dialog
         open={props.open}
         onClose={handleClose}
@@ -42,6 +57,9 @@ function AddBookmark(props) {
       >
         <DialogTitle id="dialog-title">Add new Bookmark</DialogTitle>
         <DialogContent>
+          {
+            error && <div className={classes.error}>Something went wrong.</div>
+          }
         <TextField
             autoFocus
             margin="dense"
@@ -72,8 +90,14 @@ function AddBookmark(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }
 
-export default AddBookmark;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addBookmark: bookmark => dispatch(bookmarkActions.addBookmark(bookmark))
+  }
+}
+export default connect( null, mapDispatchToProps)(AddBookmark)
