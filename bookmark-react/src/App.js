@@ -4,9 +4,9 @@ import "./App.css";
 import Container from "@material-ui/core/Container";
 import Navbar from "./components/nav/Navbar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import BookmarkListPage from "./pages/BookmarkListPage";
-import AboutPage from "./pages/AboutPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import BookmarkListPage from "./components/bookmarks/BookmarkListPage";
+import AboutPage from "./components/about/AboutPage";
+import NotFoundPage from "./components/notfound/NotFoundPage";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({

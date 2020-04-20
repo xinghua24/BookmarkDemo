@@ -7,14 +7,14 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { BOOKMARK_API } from "../constants/appConstants";
+import { BOOKMARK_API } from "../../constants/appConstants";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
-import AddBookmark from "../components/bookmarkdialog/AddBookmark";
+import AddBookmarkDialog from "./AddBookmarkDialog";
 import { connect } from "react-redux";
-import * as bookmarkActions from "../actions/bookmarkActions";
+import * as bookmarkActions from "../../actions/bookmarkActions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -117,7 +117,7 @@ function BookmarkListPage(props) {
           </Table>
         </TableContainer>
       </Paper>
-      <AddBookmark open={openAddBookmark} handleAddBookmarkClose={handleAddBookmarkClose} />
+      <AddBookmarkDialog open={openAddBookmark} handleAddBookmarkClose={handleAddBookmarkClose} />
     </Fragment>
   );
 }
