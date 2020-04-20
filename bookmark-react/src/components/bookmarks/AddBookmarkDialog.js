@@ -10,7 +10,7 @@ import { BOOKMARK_API } from "../../constants/appConstants";
 import * as bookmarkActions from "../../actions/bookmarkActions";
 import { makeStyles } from "@material-ui/core/styles";
 
-function AddBookmark(props) {
+function AddBookmarkDialog(props) {
   const handleAddBookmarkClose = props.handleAddBookmarkClose;
 
   const [name, setName] = useState('');
@@ -100,4 +100,4 @@ const mapDispatchToProps = dispatch => {
     addBookmark: bookmark => dispatch(bookmarkActions.addBookmark(bookmark))
   }
 }
-export default connect( null, mapDispatchToProps)(AddBookmark)
+export default connect( null, mapDispatchToProps)(AddBookmarkDialog)
