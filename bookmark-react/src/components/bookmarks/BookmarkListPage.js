@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -15,7 +15,7 @@ import Button from "@material-ui/core/Button";
 import AddBookmarkDialog from "./AddBookmarkDialog";
 import { connect } from "react-redux";
 import * as bookmarkActions from "../../actions/bookmarkActions";
-
+import EditBookmarkDialog from "./EditBookmarkDialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
 function BookmarkListPage(props) {
   const [hasError, setErrors] = useState(false);
   const [openAddBookmark, setOpenAddBookmark] = React.useState(false);
+  const [openEditBookmark, setOpenEditBookmark] = useState(false);
+  const [bookmarkToEdit, setBookmarkToEdit] = useState({});
 
   async function fetchData() {
     try {
@@ -55,20 +57,26 @@ function BookmarkListPage(props) {
     fetchData();
   },[]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleEdit = () => {
-    console.log("handleEdit");
-  };
-
   const handleAddBookmark = () => {
     setOpenAddBookmark(true);
   };
+
   const handleAddBookmarkClose = () => {
     setOpenAddBookmark(false);
   };
 
+  const handleEditBookmark = (bookmark) => {
+    setBookmarkToEdit(bookmark)
+    setOpenEditBookmark(true);
+  };
+
+  const handleEditBookmarkClose = () => {
+    setOpenEditBookmark(false);
+  };
+
   const classes = useStyles();
   return (
-    <Fragment>
+    <>
       {hasError ? (
         <p style={{ color: "red" }}>Something went wrong!!!</p>
       ) : null}
@@ -97,7 +105,7 @@ function BookmarkListPage(props) {
                     <Button
                       variant="outlined"
                       size="small"
-                      onClick={() => handleEdit()}
+                      onClick={() => handleEditBookmark(bookmark)}
                     >
                       <EditIcon fontSize="small" />
                       Edit
@@ -118,7 +126,8 @@ function BookmarkListPage(props) {
         </TableContainer>
       </Paper>
       <AddBookmarkDialog open={openAddBookmark} handleAddBookmarkClose={handleAddBookmarkClose} />
-    </Fragment>
+      <EditBookmarkDialog open={openEditBookmark} handleEditBookmarkClose={handleEditBookmarkClose} bookmarkToEdit={bookmarkToEdit} />
+    </>
   );
 }
 
