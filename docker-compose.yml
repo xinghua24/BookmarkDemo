@@ -1,0 +1,11 @@
+version: '3'
+services:
+  bookmark:
+    build: bookmark
+    ports:
+      - "8080:8080"
+      
+  bookmark-react:
+    build: bookmark-react
+    ports:
+      - "8081:8081"
