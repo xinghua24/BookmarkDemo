@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -25,6 +26,7 @@ public class AuthService {
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
 
+    //@Transactional
     public User getCurrentUser() {
         OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         String registrationid = authentication.getAuthorizedClientRegistrationId();

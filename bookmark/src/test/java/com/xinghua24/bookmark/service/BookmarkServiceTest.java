@@ -39,9 +39,9 @@ public class BookmarkServiceTest {
     @Test
     public void updateBookmark() {
         // Given
-        Bookmark bookmark = new Bookmark(0, "Sample", "http://sample.org/");
+        Bookmark bookmark = new Bookmark("Sample", "http://sample.org/");
         when(bookmarkRepository.findById(bookmark.getId())).thenReturn(Optional.of(bookmark));
-        Bookmark newBookmark = new Bookmark(0, "New Sample", "http://newsample.org/");
+        Bookmark newBookmark = new Bookmark("New Sample", "http://newsample.org/");
         when(bookmarkRepository.save(bookmark)).thenReturn(newBookmark);
 
         // When
@@ -55,7 +55,7 @@ public class BookmarkServiceTest {
     @Test
     public void updateBookmark_notExist() {
         // Given
-        Bookmark bookmark = new Bookmark(0, "Sample", "http://sample.org/");
+        Bookmark bookmark = new Bookmark("Sample", "http://sample.org/");
         when(bookmarkRepository.findById(bookmark.getId())).thenReturn(Optional.empty());
 
         // When
@@ -69,7 +69,7 @@ public class BookmarkServiceTest {
     @Test
     public void deleteBookmark_notExist() {
         // Given
-        Bookmark bookmark = new Bookmark(0, "Sample", "http://sample.org/");
+        Bookmark bookmark = new Bookmark("Sample", "http://sample.org/");
         when(bookmarkRepository.findById(bookmark.getId())).thenReturn(Optional.empty());
 
         // When

@@ -38,7 +38,7 @@ public class BookmarkControllerTest {
 
     @Test
     public void testGetBookmark() throws Exception {
-        Bookmark bookmark = new Bookmark(1, "Sample", "http://sample.org/");
+        Bookmark bookmark = new Bookmark("Sample", "http://sample.org/");
         when(bookmarkService.findById(1L)).thenReturn(Optional.of(bookmark));
         MvcResult result = mockMvc.perform(get("/bookmarks/{id}", 1)).andExpect(status().isOk()).andReturn();
         String actualResponseBody = result.getResponse().getContentAsString();

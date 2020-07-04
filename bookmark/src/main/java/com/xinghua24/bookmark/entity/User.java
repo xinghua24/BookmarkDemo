@@ -1,5 +1,8 @@
 package com.xinghua24.bookmark.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +12,15 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,17 +29,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name = "name")
     @NotBlank
     private String name;
 
+    @Column(name = "provider")
     @NotBlank
     private String provider;
 
     @Column(name = "provider_id")
+    @NotBlank
     private String providerId;
 
     @Column(name = "created_at")
+    @NotBlank
     private Date createdAt;
+
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<BookmarkList> bookmarkLists = new ArrayList<>();
 
     @Override
     public String toString() {
